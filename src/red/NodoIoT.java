@@ -25,8 +25,29 @@ public class NodoIoT {
      */
     public Sensor agregarSensor(String tipo, String idSensor, int capacidad) {
         // TODO: implementar (polimorfismo + composición)
-        return null;
+        if (tipo == null || idSensor == null || capacidad <= 0) {
+            return null;
+        }
+
+        Sensor sensor;
+        switch (tipo.toUpperCase()) {
+            case "TEMPERATURA":
+                sensor = new SensorTemperatura(idSensor, capacidad);
+                break;
+            case "HUMEDAD":
+                sensor = new SensorHumedad(idSensor, capacidad);
+                break;
+            case "LUMINOSIDAD":
+                sensor = new SensorLuminosidad(idSensor, capacidad);
+                break;
+            default:
+                return null;
+        }
+
+        sensores.add(sensor);
+        return sensor;
     }
+
 
     /**
      * Promedio de temperatura del nodo. Retorna 0 si no hay sensores de temperatura.
@@ -34,7 +55,18 @@ public class NodoIoT {
      */
     public double promedioTemperatura() {
         // TODO: implementar
-        return 0;
+        double suma = 0;
+        int cantidad = 0;
+
+        for (Sensor sensor : sensores) {
+            if (sensor instanceof SensorTemperatura
+                    && sensor.getCantidadLecturas() > 0) {
+                suma += sensor.promedioUltimasLecturas();
+                cantidad++;
+            }
+        }
+
+        return cantidad == 0 ? 0 : suma / cantidad;
     }
 
     /**
@@ -42,7 +74,22 @@ public class NodoIoT {
      */
     public List<Sensor> sensoresFueraDeRango() {
         // TODO: implementar
-        return new ArrayList<>();
+        List<Sensor> fueraDeRango = new ArrayList<>();
+
+        for (Sensor sensor : sensores) {
+            int cantidad = sensor.getCantidadLecturas();
+            if (cantidad > 0) {
+                int indiceUltima = (sensor.getIndiceActual()
+                        - 1 + sensor.getUltimasLecturas().length)
+                        % sensor.getUltimasLecturas().length;
+                int ultimaLectura = sensor.getUltimasLecturas()[indiceUltima];
+                if (sensor.fueraDeRango(ultimaLectura)) {
+                    fueraDeRango.add(sensor);
+                }
+            }
+        }
+
+        return fueraDeRango;
     }
 
     public String getId() { return id; }

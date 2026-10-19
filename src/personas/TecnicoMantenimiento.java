@@ -19,6 +19,9 @@ public class TecnicoMantenimiento {
     /** Asocia el técnico a un nodo existente. */
     public void asignarNodo(NodoIoT nodo) {
         // TODO: implementar
+        if (nodo != null ) {
+            nodosAsignados.add(nodo);
+        }
     }
 
     public String getNombre() { return nombre; }

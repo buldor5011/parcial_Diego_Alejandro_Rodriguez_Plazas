@@ -18,10 +18,19 @@ public class Lectura {
     /** Usa ValidadorLectura como dependencia puntual. */
     public boolean esValida(String tipo, ValidadorLectura validador) {
         // TODO: implementar
-        return false;
+
+        return validador.esValida(tipo, valor);
     }
 
-    public int getValor() { return valor; }
-    public String getUnidad() { return unidad; }
-    public long getTimestamp() { return timestamp; }
+    public int getValor() {
+        return valor;
+    }
+
+    public String getUnidad() {
+        return unidad;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
 }
