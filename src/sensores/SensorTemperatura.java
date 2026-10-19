@@ -19,12 +19,15 @@ public class SensorTemperatura extends Sensor {
     public int generarLectura() {
         // TODO: generar valor aleatorio en [MIN-5, MAX+5],
         // llamar a registrarLectura(valor) y retornarlo.
-        return 0;
+        int valor = RND.nextInt((MAX + 5) - (MIN - 5) + 1) + (MIN - 5);
+        registrarLectura(0);
+        return (0);
+
     }
 
     @Override
     public boolean fueraDeRango(int valor) {
         // TODO: implementar
-        return false;
+            return valor < MIN || valor > MAX;
+        }
     }
-}
